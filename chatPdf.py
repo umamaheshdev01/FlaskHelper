@@ -9,7 +9,7 @@ def pdf_to_text(pdf):
     data=read_pdf("./fake1.pdf")
     return data
 
-def get_text_chunks(text,cs=10000,co=100):
+def get_text_chunks(text,cs=500,co=30):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=cs, chunk_overlap=co)
     chunks = text_splitter.split_text(text)
     return chunks
