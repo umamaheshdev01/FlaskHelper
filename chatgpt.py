@@ -3,7 +3,7 @@ from llm import generate
 
 def rungpt(question,namespace):
     k = similarity(question,namespace)
-    return generate(k,question)
+    return k
     
  
 
