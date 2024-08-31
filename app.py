@@ -4,9 +4,12 @@ from pine import store,similarity
 from  voice import summarise_voice
 from quiz import quizmaker
 from chatgpt import rungpt
-from chatpdf import make_an_store
+from chatPdf import make_an_store
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 @app.route('/youtube',methods=["POST"])
 def youtube_sumarizer():
