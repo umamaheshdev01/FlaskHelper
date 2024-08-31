@@ -38,7 +38,7 @@ def similarity(text,namespace):
     query_results1 = index.query(
     namespace=namespace,
     vector=generate_embeddings(text=text),
-    top_k=5,
+    top_k=10,
     include_values=True
     )
     for i in query_results1.matches:

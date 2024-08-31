@@ -71,6 +71,9 @@ def pdfv():
     k = data.get('url')
     make_an_store(k,c)
     print('Done')
+    return jsonify({
+        "res" :"Done"
+    })
 
 
 
