@@ -3,7 +3,8 @@ from youtube import summarise_youtube
 from pine import store,similarity
 from  voice import summarise_voice
 from quiz import quizmaker
-from chatPdf import process_pdf_and_ask_question
+from chatgpt import rungpt
+from chatpdf import make_an_store
 
 app = Flask(__name__)
 
@@ -49,22 +50,25 @@ def quiz():
     res = quizmaker(d,c,topic=k)
     return res
 
-@app.route('/pdf-question', methods=["POST"])
-def pdf_question():
+@app.route('/chatgpt',methods=["POST"])
+def chats():
     data = request.json
-    pdf_files = data.get("url")
-    user_question = data.get('question')
-    
-    if not pdf_files or not user_question:
-        return jsonify({"error": "No files or question provided"}), 400
+    c = data.get('class')
+    k = data.get('question')
+    res = rungpt(k,c)
+    return jsonify({
+        "res":res
+    })
 
-    pdf_files = [pdf_file for pdf_file in pdf_files]  # Convert file paths to file-like objects if necessary
-    
-    try:
-        answer = process_pdf_and_ask_question(pdf_files, user_question)
-        return jsonify({"answer": answer})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+
+@app.route('/pdfvector',methods=["POST"])
+def pdfv():
+    data = request.json
+    c = data.get('class')
+    k = data.get('url')
+    make_an_store(k,c)
+    print('Done')
+
 
 
 if __name__ == '__main__':

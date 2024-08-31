@@ -5,6 +5,12 @@ genai.configure(api_key="AIzaSyDGJFFUTdcyFzaIcgS698-I7ZvZiWK0WuI")
 pc = Pinecone(api_key="4f3dd80b-1c86-4be6-90b4-7f0f21b6bc06")
 
 
+def clean_vector_id(vector_id):
+    vector_id = ''.join(char for char in vector_id if ord(char) < 128)
+    return vector_id
+
+
+
 def generate_embeddings(text):
     result = genai.embed_content(
     model="models/text-embedding-004", 
@@ -19,8 +25,8 @@ def store(text,namespace,metadata):
     vectors = []
     for i in text:
         vectors.append({
-            "id" : str(i),
-            "vectors" : generate_embeddings(text=i),
+            "id" : clean_vector_id(str(i)),
+            "values" : generate_embeddings(text=clean_vector_id(str(i))),
             "metadata" : metadata
         })
     index.upsert(vectors=vectors,namespace=namespace)
